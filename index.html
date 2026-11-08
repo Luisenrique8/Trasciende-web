@@ -170,8 +170,10 @@ html.anim .promo{overflow-x:clip}
 #servicios .losa:has(.enlace:focus-visible){outline:2px solid var(--azul);outline-offset:-2px}
 
 /* ---------- Caso Cédelo ---------- */
-.caso-fotos{display:flex;gap:28px;justify-content:center;margin-top:56px;flex-wrap:wrap}
-.caso-fotos img{width:260px;max-width:44%;height:auto;filter:drop-shadow(0 26px 34px rgba(20,22,28,.3))}
+.caso-fotos{display:flex;gap:22px;justify-content:center;align-items:flex-start;margin:56px auto 0;max-width:1100px;flex-wrap:wrap}
+.caso-fotos img{width:calc(25% - 17px);min-width:0;height:auto;filter:drop-shadow(0 26px 34px rgba(0,0,0,.45))}
+.caso-fotos img:nth-child(even){margin-top:48px}
+@media(max-width:760px){.caso-fotos{gap:14px}.caso-fotos img{width:calc(50% - 7px)}.caso-fotos img:nth-child(even){margin-top:36px}}
 .mini{margin-top:50px;display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--borde-osc,#2A2D38);max-width:860px;margin-left:auto;margin-right:auto;border:1px solid #2A2D38}
 .promo-osc .mini{background:#2A2D38}
 .mini div{background:var(--ink);padding:26px 20px}
@@ -400,8 +402,10 @@ details p{margin:0 0 18px;font-size:16px;line-height:1.6;color:var(--texto-2)}
   <p class="sub">Una plataforma para que los vecinos donen, vendan barato o intercambien lo que ya no usan. La construimos de principio a fin: diseño, desarrollo, base de datos en la nube, empresa, marca y redes. Ya está en Google Play con cuenta de organización a nombre de la empresa; la App Store está en trámite.</p>
   <p class="lema">“Lo que a ti te sobra, a alguien le falta.”</p>
   <div class="caso-fotos">
-    <img src="/img/cedelo-iphone.webp" alt="Cédelo pe en un iPhone: portada y sección Tu espacio tiene valor">
-    <img src="/img/cedelo-android.webp" alt="Cédelo pe en un celular Android: publicaciones gratis y en venta">
+    <img src="/img/cedelo/ios-home1.webp" width="661" height="1350" loading="lazy" alt="Cédelo pe en un iPhone: portada con el lema y la sección Tu espacio tiene valor">
+    <img src="/img/cedelo/android-lista2.webp" width="657" height="1377" loading="lazy" alt="Cédelo pe en un celular Android: publicaciones en venta y donaciones gratis en Cajamarca">
+    <img src="/img/cedelo/ios-chat.webp" width="661" height="1350" loading="lazy" alt="Cédelo pe en un iPhone: chat privado con consejos de entrega segura">
+    <img src="/img/cedelo/android-home2.webp" width="657" height="1377" loading="lazy" alt="Cédelo pe en un celular Android: portada con otra imagen del carrusel">
   </div>
   <div class="mini">
     <div><b>Chat en tiempo real</b><span>Reserva, visto y respuestas rápidas</span></div>

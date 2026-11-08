@@ -170,8 +170,10 @@ html.anim .promo{overflow-x:clip}
 #servicios .losa:has(.enlace:focus-visible){outline:2px solid var(--azul);outline-offset:-2px}
 
 /* ---------- Caso Cédelo ---------- */
-.caso-fotos{display:flex;gap:28px;justify-content:center;margin-top:56px;flex-wrap:wrap}
-.caso-fotos img{width:260px;max-width:44%;height:auto;filter:drop-shadow(0 26px 34px rgba(20,22,28,.3))}
+.caso-fotos{display:flex;gap:22px;justify-content:center;align-items:flex-start;margin:56px auto 0;max-width:1100px;flex-wrap:wrap}
+.caso-fotos img{width:calc(25% - 17px);min-width:0;height:auto;filter:drop-shadow(0 26px 34px rgba(0,0,0,.45))}
+.caso-fotos img:nth-child(even){margin-top:48px}
+@media(max-width:760px){.caso-fotos{gap:14px}.caso-fotos img{width:calc(50% - 7px)}.caso-fotos img:nth-child(even){margin-top:36px}}
 .mini{margin-top:50px;display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--borde-osc,#2A2D38);max-width:860px;margin-left:auto;margin-right:auto;border:1px solid #2A2D38}
 .promo-osc .mini{background:#2A2D38}
 .mini div{background:var(--ink);padding:26px 20px}
@@ -342,7 +344,7 @@ details p{margin:0 0 18px;font-size:16px;line-height:1.6;color:var(--texto-2)}
 <section class="promo promo-osc">
   <h2 style="font-size:clamp(28px,4vw,42px)">Empieza con lo esencial y crece por etapas.</h2>
   <p class="sub">Definimos juntos qué necesita la primera versión para salir a la calle. Lo demás se suma cuando tus usuarios lo piden.</p>
-  <div class="prueba"><img src="/img/cedelo-iphone.webp" alt="Cédelo pe en un iPhone" loading="lazy"><p><b>Lo hicimos con Cédelo pe.</b> Una plataforma para donar, vender barato o intercambiar, con chat en tiempo real, acceso con Google y base de datos en la nube. Ya está en Google Play.<br><a class="enlace enlace-claro" href="/#caso" style="font-size:16px;margin-top:10px">Ver el caso</a></p></div>
+  <div class="prueba"><img src="/img/cedelo/ios-home1.webp" alt="Cédelo pe en un iPhone" loading="lazy"><p><b>Lo hicimos con Cédelo pe.</b> Una plataforma para donar, vender barato o intercambiar, con chat en tiempo real, acceso con Google y base de datos en la nube. Ya está en Google Play.<br><a class="enlace enlace-claro" href="/#caso" style="font-size:16px;margin-top:10px">Ver el caso</a></p></div>
 </section>
 
 <section class="promo" style="padding-bottom:0">
