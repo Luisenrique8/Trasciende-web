@@ -24,7 +24,7 @@
 <meta property="og:description" content="Ruta SSOMA: asesoría en seguridad y salud en el trabajo en Cajamarca. Supervisor SST externo, Sistema de Gestión SST, capacitaciones con constancia y kits listos para SUNAFIL.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&family=Press+Start+2P&display=swap">
 <style>
 /* ======================================================================
    TRASCIENDE TECHNOLOGY · v8 — estilo "promo editorial" (inspirado en
@@ -162,6 +162,15 @@ html.anim .promo{overflow-x:clip}
 .losa p{margin:10px auto 0;font-size:15.5px;line-height:1.55;color:var(--texto-2);max-width:320px}
 .losa .enlace{margin-top:18px;font-size:16px}
 .losa .enlace::after{font-size:18px}
+/* Botón arcade del minijuego */
+.arcade{position:fixed;left:calc(20px + env(safe-area-inset-left,0px));bottom:calc(24px + env(safe-area-inset-bottom,0px));z-index:55;display:inline-flex;align-items:center;gap:8px;padding:10px 14px 12px;border-radius:12px;background:#14161C;color:#F2B705;font:700 11px/1 "Press Start 2P",ui-monospace,monospace;letter-spacing:.04em;border:2px solid #2450E6;box-shadow:0 5px 0 #17378F,0 12px 24px -8px rgba(36,80,230,.6);transition:transform .12s ease,box-shadow .12s ease}
+.arcade:hover{transform:translateY(-2px);box-shadow:0 7px 0 #17378F,0 16px 28px -8px rgba(36,80,230,.7);color:#FFD34D}
+.arcade:active{transform:translateY(4px);box-shadow:0 1px 0 #17378F}
+.arcade:focus-visible{outline:3px solid #9FB4FF;outline-offset:3px}
+.arcade svg{flex:none}
+@media(max-width:540px){.arcade span{display:none}.arcade{padding:10px 11px 11px}}
+@media(prefers-reduced-motion:reduce){.arcade{transition:none}}
+
 /* Tarjetas de servicios: toda la tarjeta (ícono incluido) lleva a la página del servicio */
 #servicios .losa{position:relative;transition:background .25s ease}
 #servicios .losa .enlace::before{content:"";position:absolute;inset:0;z-index:1}
@@ -631,6 +640,7 @@ details p{margin:0 0 18px;font-size:16px;line-height:1.6;color:var(--texto-2)}
         <li><a href="/#caso">Caso Cédelo pe</a></li>
         <li><a href="/#precios">Precios</a></li>
         <li><a href="/#preguntas">Preguntas frecuentes</a></li>
+        <li><a href="/juego/">Minijuego Trasciende Defense</a></li>
       </ul>
     </div>
     <div>
