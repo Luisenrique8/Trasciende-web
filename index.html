@@ -629,7 +629,7 @@ document.querySelectorAll('#menu a').forEach(a=>a.addEventListener('click',()=>{
   });
   // 4. Grillas: aparecen en cascada
   // (en grillas con fondo de líneas se anima el contenido de cada celda, no la celda)
-  $('.fotos, .pasos, .faq').forEach(g=>{
+  $('.fotos, .pasos, .faq, .cascada').forEach(g=>{
     [...g.children].forEach((c,k)=>{ c.classList.add('a-sube'); c.style.setProperty('--d',Math.min(k*.09,.5)+'s'); });
   });
   $('.mosaico, .planes, .mini').forEach(g=>{
