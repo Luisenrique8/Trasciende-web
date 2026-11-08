@@ -9,7 +9,7 @@
   function pag(slug) { return RAIZ + "servicios/" + slug + "/" + (LOCAL ? "index.html" : ""); }
   function inicio(hash) { return RAIZ + (LOCAL ? "index.html" : "") + (hash || ""); }
 
-  var TEL_T = "51950185853", TEL_S = "51971980366";
+  var TEL_T = "51971980366", TEL_S = "51971980366";
   function wa(texto, tel) { return "https://wa.me/" + (tel || TEL_T) + "?text=" + encodeURIComponent(texto); }
 
   // ===== Contenido =====
