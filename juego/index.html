@@ -316,7 +316,7 @@ function nuevoProblema(){
   var vivos=negocios.filter(function(b){return b.hp>0;});if(!vivos.length)return;
   var p=PROB[Math.floor(Math.random()*PROB.length)],obj=vivos[Math.floor(Math.random()*vivos.length)];
   var fs=W<600?12:13,w=medirTexto(p.t,'600 '+fs+'px Inter')+46,x=Math.random()*(W-w-40)+20+w/2;
-  probs.push({p:p,x:x,y:-30,w:w,h:W<600?34:38,fs:fs,hp:p.v,max:p.v,obj:obj,vel:(.55+st.ola*.09)*(1-p.v*.08)*(W<600?.85:1),fase:Math.random()*6,golpe:0});
+  probs.push({p:p,x:x,y:-30,w:w,h:W<600?34:38,fs:fs,hp:p.v,max:p.v,obj:obj,vel:Math.min(4,.55+st.ola*.09)*(1-p.v*.08)*(W<600?.85:1),fase:Math.random()*6,golpe:0});
 }
 function nuevaMejora(){var m=MEJ[Math.floor(Math.random()*MEJ.length)];mejoras.push({m:m,x:Math.random()*(W-120)+60,y:-20,r:W<600?22:26,fase:0});}
 function chispas(x,y,c,n){if(reducido)n=Math.min(n,6);for(var i=0;i<n;i++){var a=Math.random()*Math.PI*2,s=Math.random()*4+1;parts.push({x:x,y:y,vx:Math.cos(a)*s,vy:Math.sin(a)*s-1,c:c,r:Math.random()*2.4+1,v:1});}}
@@ -331,7 +331,7 @@ function resolver(p,silencio){
   var pts=p.max*50*st.mult;st.puntos+=pts;st.res++;st.porServ[p.p.s]=(st.porServ[p.p.s]||0)+1;
   chispas(p.x,p.y,SERV[p.p.s].c,18);texto('✓ '+p.p.ok,p.x,p.y-6,'#3FD68A');texto('+'+pts,p.x,p.y+16,'#F5F5F7');
   if(!silencio)A.resuelto();
-  if(st.res>=st.ola*10){st.ola++;st.mult=1+Math.floor(st.ola/2)*.5;st.banner=150;A.ola();}
+  if(st.res>=st.ola*10){st.ola++;st.mult=Math.min(5,1+Math.floor(st.ola/2)*.5);st.banner=150;A.ola();}
 }
 function chocar(p){
   A.golpe();st.sacudir=reducido?0:10;chispas(p.x,p.y,'#FF5D5D',22);
@@ -346,7 +346,7 @@ function actualizar(k){
   if(teclas.i)mira.x=Math.max(30,mira.x-10*k);if(teclas.d)mira.x=Math.min(W-30,mira.x+10*k);
   if(teclas.i||teclas.d||teclas.e){if(mira.y>H*.7||mira.y<=0)mira.y=H*.35;}
   if(presionado||teclas.e)disparar();
-  st.spawn+=k;var cada=Math.max(28,95-st.ola*7);if(st.spawn>cada){st.spawn=0;nuevoProblema();}
+  st.spawn+=k;var cada=Math.max(16,95-st.ola*5);if(st.spawn>cada){st.spawn=0;nuevoProblema();if(st.ola>=12&&Math.random()<Math.min(.6,(st.ola-10)*.04))nuevoProblema();}
   if(Math.random()<.0025*k)nuevaMejora();
   balas.forEach(function(b){b.x+=b.vx*k;b.y+=b.vy*k;b.vida-=k;});
   probs.forEach(function(p){
@@ -501,7 +501,7 @@ $('fGuardar').addEventListener('submit',function(ev){
   btn.disabled=true;btn.textContent='Guardando…';
   rpc('defense_registrar',{p_nombre:n,p_puntos:pendiente.p,p_resueltos:pendiente.r,p_ola:pendiente.o,p_segundos:pendiente.s})
     .then(function(){return cargarGlobal();}).then(listo)
-    .catch(function(m){$('fNuevo').classList.add('err');$('fNuevo').textContent=String(m).indexOf('nombre')>-1?'ESE NOMBRE NO ESTÁ PERMITIDO. PRUEBA OTRO.':'NO SE PUDO GUARDAR. INTÉNTALO DE NUEVO.';})
+    .catch(function(m){$('fNuevo').classList.add('err');if(window.console)console.warn('Récord no guardado:',m);$('fNuevo').textContent=String(m).indexOf('nombre')>-1?'ESE NOMBRE NO ESTÁ PERMITIDO. PRUEBA OTRO.':(String(m).indexOf('intentos')>-1?'DEMASIADOS INTENTOS. ESPERA UN RATO.':'NO SE PUDO GUARDAR EN EL TOP GLOBAL. QUEDÓ GUARDADO EN ESTE DISPOSITIVO.');})
     .then(function(){btn.disabled=false;btn.textContent='Guardar';});
 });
 pintarTodo();cargarGlobal();
