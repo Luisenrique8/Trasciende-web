@@ -1,7 +1,6 @@
-/* Tabla de récords compartida de Trasciende Defense (Supabase).
-   Pega aquí la URL del proyecto y la clave pública "anon" / "publishable".
-   Si se deja vacío, el juego guarda los récords solo en cada dispositivo. */
+/* Tabla de récords compartida de Trasciende Defense (Supabase, proyecto Trasciendeweb).
+   La clave "publishable" es pública por diseño; nunca poner aquí una clave secreta. */
 window.DEFENSE_CONFIG = {
-  url: '',
-  key: ''
+  url: 'https://kgbrtzhuwwvjxgqlzdts.supabase.co',
+  key: 'sb_publishable__V3yUzEOPsU8ePJapmdchg_EB-dzhOt'
 };
