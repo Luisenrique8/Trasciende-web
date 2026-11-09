@@ -48,6 +48,25 @@ h2{font:700 clamp(30px,5vw,44px)/1.05 var(--display);letter-spacing:-.02em;margi
 .resueltos{margin-top:18px;display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
 .resueltos span{font-size:13px;padding:7px 12px;border-radius:999px;border:1px solid var(--linea);background:rgba(20,22,28,.9);color:#DADCE5}
 .resueltos b{color:var(--verde);margin-right:4px}
+.top{margin:22px auto 0;max-width:420px;text-align:left;border:1px solid var(--linea);border-radius:16px;overflow:hidden;background:rgba(20,22,28,.9)}
+.top h3{font:600 12px var(--mono);letter-spacing:.14em;color:var(--cielo);padding:12px 16px;border-bottom:1px solid var(--linea)}
+.top ol{list-style:none;padding:0;margin:0}
+.top li{display:grid;grid-template-columns:28px 1fr auto;gap:10px;align-items:center;padding:10px 16px;border-bottom:1px solid var(--linea);font-size:15px}
+.top li:last-child{border-bottom:0}
+.top li .pos{font:700 14px var(--display);color:var(--gris)}
+.top li:first-child .pos{color:var(--amarillo)}
+.top li .nom{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.top li .nom small{display:block;font-size:12px;color:var(--gris)}
+.top li .pts{font:700 16px var(--display);font-variant-numeric:tabular-nums}
+.top li.nuevo{background:rgba(36,80,230,.22)}
+.top .vacio{padding:14px 16px;color:var(--gris);font-size:14px}
+.guardar{margin:20px auto 0;max-width:420px;display:flex;gap:8px}
+.guardar[hidden]{display:none}
+.guardar input{flex:1;min-width:0;height:48px;padding:0 16px;border-radius:12px;border:1px solid rgba(91,124,255,.5);background:rgba(20,22,28,.95);color:#fff;font:500 16px Inter,sans-serif}
+.guardar input:focus{outline:2px solid var(--azul-2);outline-offset:1px}
+.guardar button{height:48px;padding:0 18px;border:0;border-radius:12px;background:var(--amarillo);color:#14161C;font:700 15px var(--display);cursor:pointer}
+.nuevo-rec{margin-top:16px;font:600 14px var(--mono);letter-spacing:.08em;color:var(--amarillo)}
+.nuevo-rec[hidden]{display:none}
 .cta{margin-top:22px;padding:18px;border-radius:16px;background:rgba(36,80,230,.14);border:1px solid rgba(91,124,255,.35);font-size:15px;line-height:1.5;color:#DADCE5}
 .cta a{color:#fff;font-weight:600}
 /* HUD */
@@ -92,6 +111,7 @@ h2{font:700 clamp(30px,5vw,44px)/1.05 var(--display);letter-spacing:-.02em;margi
       <div><b>Resuelve problemas</b><span>Cada uno se convierte en un servicio de Trasciende.</span></div>
       <div><b>Atrapa mejoras</b><span>Plan Al día repara, el Asistente limpia la pantalla, el café acelera.</span></div>
     </div>
+    <div class="top" id="topInicio" hidden><h3>MEJORES PUNTAJES</h3><ol id="listaInicio"></ol></div>
     <button class="boton" id="bJugar" type="button">Empezar a resolver</button><br>
     <a class="enlace" href="/">‹ Volver a Trasciende Technology</a>
     <p class="ayuda">En computadora también puedes usar ← → y la barra espaciadora.</p>
@@ -116,6 +136,12 @@ h2{font:700 clamp(30px,5vw,44px)/1.05 var(--display);letter-spacing:-.02em;margi
       <div><small>RESUELTOS</small><b id="fRes">0</b></div>
       <div><small>RÉCORD</small><b id="fRecord" style="color:var(--amarillo)">0</b></div>
     </div>
+    <p class="nuevo-rec" id="fNuevo" hidden>¡ENTRASTE AL TOP 5!</p>
+    <form class="guardar" id="fGuardar" hidden>
+      <input id="fNombre" maxlength="16" autocomplete="nickname" placeholder="Tu nombre o el de tu negocio" aria-label="Tu nombre para la tabla de récords">
+      <button type="submit">Guardar</button>
+    </form>
+    <div class="top"><h3>TOP 5 · MEJORES PUNTAJES</h3><ol id="listaFin"></ol></div>
     <div class="resueltos" id="fLista"></div>
     <div class="cta" id="fCta">En la vida real, estos problemas los resolvemos nosotros. <a href="/#contacto">Conversemos sobre tu negocio ›</a></div>
     <button class="boton" id="bOtra" type="button">Jugar otra vez</button><br>
@@ -167,6 +193,25 @@ var MEJ=[{k:'aldia',t:'Plan Al día',d:'Repara negocios',c:'#9FB4FF'},{k:'asist'
 var st={jugando:false,pausa:false,puntos:0,ola:1,mult:1,res:0,porServ:{},spawn:0,cd:0,cafe:0,sacudir:0,banner:0};
 var negocios=[],balas=[],probs=[],mejoras=[],parts=[],textos=[],estrellas=[],ventanas=[];
 var record=0;try{record=parseInt(localStorage.getItem('trasciende_defense_record')||'0',10)||0;}catch(e){}
+var TOP=[];try{TOP=JSON.parse(localStorage.getItem('trasciende_defense_top5')||'[]')||[];}catch(e){TOP=[];}
+if(!Array.isArray(TOP))TOP=[];
+function guardarTop(){try{localStorage.setItem('trasciende_defense_top5',JSON.stringify(TOP));}catch(e){}}
+function entraTop(p){return p>0&&(TOP.length<5||p>TOP[TOP.length-1].p);}
+function pintarTop(ol,marcar){
+  var cont=document.getElementById(ol);cont.innerHTML='';
+  if(!TOP.length){var v=document.createElement('li');v.className='vacio';v.style.display='block';v.textContent='Todavía no hay récords. ¡Sé el primero!';cont.appendChild(v);return;}
+  TOP.forEach(function(r,i){
+    var li=document.createElement('li');if(marcar===i)li.className='nuevo';
+    var pos=document.createElement('span');pos.className='pos';pos.textContent=(i+1)+'.';
+    var nom=document.createElement('span');nom.className='nom';nom.textContent=r.n;
+    var sm=document.createElement('small');sm.textContent=r.r+(r.r===1?' problema resuelto':' problemas resueltos');nom.appendChild(sm);
+    var pts=document.createElement('span');pts.className='pts';pts.textContent=r.p.toLocaleString('es-PE');
+    li.appendChild(pos);li.appendChild(nom);li.appendChild(pts);cont.appendChild(li);
+  });
+}
+function pintarInicio(){var t=document.getElementById('topInicio');t.hidden=!TOP.length;if(TOP.length)pintarTop('listaInicio');}
+if(TOP.length&&TOP[0].p>record)record=TOP[0].p;
+var pendiente=null;
 var mira={x:0,y:0},presionado=false,teclas={i:false,d:false,e:false};
 
 function colocarNegocios(){
@@ -410,10 +455,21 @@ function terminar(){
   var lista=Object.keys(st.porServ).sort(function(a,b){return st.porServ[b]-st.porServ[a];});
   $('fLista').innerHTML=lista.map(function(k){return '<span><b>'+st.porServ[k]+'</b>'+SERV[k].n+'</span>';}).join('');
   if(lista.length){var top=SERV[lista[0]];$('fCta').innerHTML='Resolviste más problemas de <b>'+top.n+'</b>. En la vida real, eso lo hacemos nosotros. <a href="'+top.url+'">Conoce el servicio ›</a>';}
-  $('hud').hidden=true;setTimeout(function(){$('cFin').hidden=false;$('bOtra').focus();},700);
+  var entra=entraTop(st.puntos);pendiente=entra?{p:st.puntos,r:st.res}:null;
+  $('fNuevo').textContent='¡ENTRASTE AL TOP 5!';$('fNuevo').hidden=!entra;$('fGuardar').hidden=!entra;pintarTop('listaFin');
+  if(entra){var ult='';try{ult=localStorage.getItem('trasciende_defense_nombre')||'';}catch(e){}$('fNombre').value=ult;}
+  $('hud').hidden=true;setTimeout(function(){$('cFin').hidden=false;(entra?$('fNombre'):$('bOtra')).focus();},700);
 }
 $('bJugar').addEventListener('click',iniciar);
 $('bOtra').addEventListener('click',iniciar);
+$('fGuardar').addEventListener('submit',function(ev){
+  ev.preventDefault();if(!pendiente)return;
+  var n=($('fNombre').value||'').replace(/\s+/g,' ').trim().slice(0,16)||'Anónimo';
+  try{localStorage.setItem('trasciende_defense_nombre',n);}catch(e){}
+  var reg={n:n,p:pendiente.p,r:pendiente.r};TOP.push(reg);TOP.sort(function(a,b){return b.p-a.p;});TOP=TOP.slice(0,5);guardarTop();
+  pendiente=null;$('fGuardar').hidden=true;$('fNuevo').textContent='¡GUARDADO EN EL TOP 5!';pintarTop('listaFin',TOP.indexOf(reg));pintarInicio();$('bOtra').focus();
+});
+pintarInicio();
 $('bSeguir').addEventListener('click',function(){pausar(false);});
 $('bPausa').addEventListener('click',function(){if(st.jugando)pausar(true);});
 $('bSonido').addEventListener('click',function(){A.mudo=!A.mudo;$('ondas').style.display=A.mudo?'none':'';this.setAttribute('aria-label',A.mudo?'Activar sonido':'Silenciar');});
